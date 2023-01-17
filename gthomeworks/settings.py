@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tasks',
+    'students',
     'ckeditor',  # CKEditor config
     'ckeditor_uploader',  # CKEditor media uploader
 ]
