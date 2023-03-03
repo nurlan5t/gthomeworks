@@ -1,0 +1,69 @@
+{% extends 'tasks/base.html' %}
+<title>{% block title %} {{ student.get_full_name }} {% endblock %}</title>
+{% block content %}
+    <br>
+    <div class="d-flex justify-content-center">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <p class="fs-3 text-secondary">Login: <strong class="text-dark">{{ student.username }}</strong></p>
+        </li>
+        <li class="list-group-item">
+            {% if student.email %}
+                <p class="fs-3 text-secondary">Email: <strong class="text-dark">{{ student.email }}</strong></p>
+                <div class="form-content">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-5">
+                                <div class="form-group w-100">
+                                    {{ student_form }}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Изменить</button>
+                            </div>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+
+            {% else %}
+                <p class="fs-4 text-danger">Укажите адрес электронной почты! </p>
+                <div class="form-content">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-5">
+                                <div class="form-group w-100">
+                                    {{ student_form }}
+                                </div>
+                                <button type="submit" class="btn btn-success">Добавить</button>
+                            </div>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+
+            {% endif %}
+        </li>
+
+        <li class="list-group-item">
+            <p class="fs-3 text-secondary">Студент: <strong class="text-dark">{{ student.get_full_name }}</strong></p>
+        </li>
+
+        <li class="list-group-item">
+            <p class="fs-3 text-secondary">Направление: <strong class="text-dark">{{ student.band.title }}</strong></p>
+        </li>
+
+        <li class="list-group-item">
+            <p class="fs-3 text-secondary">Группа: <strong class="text-dark">{{ student.band.group_number }}</strong></p>
+        </li>
+
+        <li class="list-group-item">
+        <p class="fs-3 text-secondary">Месяц обучения: <strong class="text-dark">{{ student.band.month }}</strong></p>
+        </li>
+
+        <li class="list-group-item">
+            <p class="fs-3 text-secondary">Дата старта группы: <strong class="text-dark">{{ student.band.started }}</strong></p>
+        </li>
+    </ul>
+    </div>
+{% endblock %}

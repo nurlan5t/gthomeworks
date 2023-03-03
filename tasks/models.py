@@ -1,11 +1,9 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.utils.timezone import localtime
 from ckeditor.fields import RichTextField
-from students.models import Student
-from django.core.validators import FileExtensionValidator, MinLengthValidator
-
-
-def gen_number_choices(max_value: int) -> tuple:
-    return tuple(enumerate(range(1, (max_value + 1)), start=1))
+from students.models import Student, Band
+from .functions import gen_number_choices
 
 
 class Task(models.Model):
@@ -14,19 +12,35 @@ class Task(models.Model):
     content = RichTextField()
     deadline = models.DateTimeField()
     is_active = models.BooleanField(default=False)
+    topic = models.CharField(max_length=255, blank=True, null=True)
+    bands = models.ManyToManyField(Band)
+
+    def __str__(self):
+        return str(self.number)
 
 
 class Homework(models.Model):
-    HOMEWORK_RATE_CHOICES = gen_number_choices(max_value=10)
     # student's input data
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
     task = models.ForeignKey(Task, on_delete=models.PROTECT)
-    file = models.FileField(upload_to='uploads/', max_length=100, validators=[FileExtensionValidator(['py'])])
-    stand_up = models.TextField(MinLengthValidator(60))
-    # auto saved data
-    created = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(null=True, blank=True, upload_to='uploads/', max_length=100,
+                            validators=[FileExtensionValidator(['py'])])
+    link_to_git = models.URLField(null=True, blank=True, max_length=255)
+    stand_up = models.TextField()
+
+    # auto save data
+    created = models.DateTimeField(default=localtime)
     is_deadline = models.BooleanField(default=False, blank=True)
-    status = models.BooleanField(default=False, blank=True)
+
     # teacher's input data
+    HOMEWORK_RATE_CHOICES = gen_number_choices(max_value=10)
     score = models.PositiveSmallIntegerField(choices=HOMEWORK_RATE_CHOICES, default=1, blank=True)
     feedback = RichTextField(blank=True)
+    is_checked = models.BooleanField(default=False, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.created.__le__(self.task.deadline):
+            self.is_deadline = True
+        else:
+            self.is_deadline = False
+        super(Homework, self).save(*args, **kwargs)

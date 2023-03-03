@@ -1,0 +1,31 @@
+{% extends 'tasks/base.html' %}
+<title>{% block title %} Задания {% endblock %}</title>
+{% block content %}
+    <br>
+    {% if tasks %}
+        {% for task in tasks %}
+            <div class="container d-flex justify-content-center bg-light">
+                <div class="card text-center w-75 mb-3">
+                  <div class="card-header">
+                    <h2>Домашнее Задание № {{ task.number }}</h2>
+                  </div>
+                    <br>
+                  <div class="card-body">
+                    <h5 class="card-title text-secondary fst-italic ">{{ task.topic }}</h5>
+                      <br>
+                    <a href="{% url 'task-detail' task.pk %}">
+                        <button type="button" class="btn btn-primary">Выполнить</button>
+                    </a>
+                  </div>
+
+                </div>
+                <br>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-success" role="alert">
+            <h4 class="text-center display-4">Все задания отправлены!</h4>
+        </div>
+
+    {% endif %}
+{% endblock %}
