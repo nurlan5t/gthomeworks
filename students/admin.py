@@ -4,7 +4,7 @@ from students.models import Band, Student
 
 @admin.register(Band)
 class BandAdmin(admin.ModelAdmin):
-    list_display = ("title", "group_number", "started")
+    list_display = ("title", "group_number", "started", "month")
 
 
 @admin.register(Student)

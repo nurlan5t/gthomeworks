@@ -1,0 +1,31 @@
+{% extends 'tasks/base.html' %}
+<title>{% block title %} Задание {{ task.number }} {% endblock %}</title>
+{% block content %}
+      <br>
+    <div class="card">
+          <div class="card-header text-center">
+            <h2>Задание № {{ task.number }}</h2>
+          </div>
+          <div class="card-body">
+            {% autoescape off %}
+                <h5>{{ task.content }}</h5>
+            {% endautoescape %}
+          </div>
+          <div class="card-footer text-muted">
+              <h3 class="text-danger-emphasis text-center">🕚 {{ task.deadline }} </h3>
+          </div>
+    </div>
+
+    <div class="form-group d-flex justify-content-center">
+        <form class="row g-3 needs-validation w-50" enctype="multipart/form-data" method="post">
+            <br>
+            <div class="alert alert-info" role="alert">
+                <p class="text-center display-6"><strong>Отправьте <i>файл</i> или <i>ссылку</i> на Git репозиторий!</strong></p>
+            </div>
+            {% csrf_token %}
+            <h5>{{ homework_form.as_p }}</h5>
+            <button type="submit" class="btn btn-success w-100">Отправить</button>
+        </form>
+    </div>
+
+{% endblock %}
