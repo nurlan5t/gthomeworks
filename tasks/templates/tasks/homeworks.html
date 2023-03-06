@@ -2,50 +2,54 @@
 <title>{% block title %} Отправленные ДЗ {% endblock %}</title>
 {% block content %}
     <br>
-    {% for homework in homeworks %}
-        <div class="container d-flex justify-content-center">
+    {% if homeworks %}
+        {% for homework in homeworks %}
+            <div class="container d-flex justify-content-center">
 
-            <div class="card text-center w-75 mb-3">
+                <div class="card text-center w-75 mb-3">
 
-                <div class="card-header">
-                    <h3>Домашнее Задание № {{ homework.task.number }}</h3>
-                    <p class="card-title text-secondary fst-italic ">Отправлено: {{ homework.created }}</p>
+                    <div class="card-header">
+                        <h3>Домашнее Задание № {{ homework.task.number }}</h3>
+                        <p class="card-title text-secondary fst-italic ">Отправлено: {{ homework.created }}</p>
+                    </div>
+
+                {% if not homework.is_checked %}
+                    <div class="card-body">
+                      <p>{{ homework.file }}</p>
+                      <p>{{ homework.link_to_git}}</p>
+                        <h4 class="text-start">Stand Up:</h4>
+                            <p>{{ homework.stand_up }}</p>
+                    </div>
+
+                    <div class="card-footer">
+                      <span class="badge text-bg-secondary w-25 p-2">Ожидает проверки...⌛</span>
+                    </div>
+
+                {% else %}
+                    <div class="card-body">
+                        <h4 class="text-start">Feedback:</h4>
+                        {% autoescape off %}
+                            <p>{{ homework.feedback }}</p>
+                        {% endautoescape %}
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-success w-25 p-1">Проверено! ✅
+                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ homework.score }} из 10
+                            <span class="visually-hidden">unread messages</span>
+                          </span>
+                        </button>
+                    </div>
+
+                {% endif %}
+
                 </div>
-
-            {% if not homework.is_checked %}
-                <div class="card-body">
-                  <p>{{ homework.file }}</p>
-                  <p>{{ homework.link_to_git}}</p>
-                    <h4 class="text-start">Stand Up:</h4>
-                      {% for line in homework.stand_up.split %}
-                          <p class="text-start">{{ line }}</p>
-                      {% endfor %}
-                </div>
-
-                <div class="card-footer">
-                  <span class="badge text-bg-secondary w-25 p-2">Ожидает проверки...⌛</span>
-                </div>
-
-            {% else %}
-                <div class="card-body">
-                    <h4 class="text-start">Feedback:</h4>
-                    {% autoescape off %}
-                        <p>{{ homework.feedback }}</p>
-                    {% endautoescape %}
-                </div>
-
-                <div class="card-footer">
-                    <button type="button" class="btn btn-success w-25 p-1">Проверено! ✅
-                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{ homework.score }} из 10
-                        <span class="visually-hidden">unread messages</span>
-                      </span>
-                    </button>
-                </div>
-
-            {% endif %}
-
             </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <h4 class="text-center display-4">Нет выполненных заданий!</h4>
         </div>
-    {% endfor %}
+    {% endif %}
 {% endblock %}
