@@ -19,7 +19,7 @@
                   </li>
 
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'student-homeworks' %}"> My Homeworks</a>
+                    <a class="nav-link" href="{% url 'student-homeworks' %}"> My Homeworks {{ homeworks.user.count }} </a>
                   </li>
                 </ul>
                 <a class="login" href="{% url 'logout' %}">
