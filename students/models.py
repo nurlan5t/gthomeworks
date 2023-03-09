@@ -18,6 +18,11 @@ class Band(models.Model):
 class Student(User):
     band = models.ForeignKey(Band, on_delete=models.CASCADE)
 
+    def save(self, *args, **kwargs):
+        if self.username:
+            self.set_password(self.password)
+            super(Student, self).save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.first_name} {self.last_name} {self.band.group_number}'
 
