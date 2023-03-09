@@ -15,7 +15,7 @@ class StudentHomeworksView(LoginRequiredMixin, ListView):
     context_object_name = 'homeworks'
 
     def get_queryset(self):
-        return Homework.objects.filter(student=self.request.user.pk)
+        return Homework.objects.filter(student=self.request.user.pk).order_by('-created')
 
 
 class LoginUser(LoginView):

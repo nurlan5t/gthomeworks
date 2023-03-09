@@ -1,3 +1,5 @@
+from django.core.mail import send_mail
+from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.timezone import localtime
@@ -39,6 +41,14 @@ class Homework(models.Model):
     is_checked = models.BooleanField(default=False, blank=True)
 
     def save(self, *args, **kwargs):
+        if self.is_checked and self.student.email:
+            send_mail(
+                subject=f'Домашнее Задание №{self.task.number}',
+                message=f'Оценка: {self.score} из 10',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[f'{self.student.email}'],
+            )
+
         if self.created.__le__(self.task.deadline):
             self.is_deadline = True
         else:

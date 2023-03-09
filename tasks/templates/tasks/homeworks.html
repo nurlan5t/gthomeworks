@@ -5,9 +5,7 @@
     {% if homeworks %}
         {% for homework in homeworks %}
             <div class="container d-flex justify-content-center">
-
                 <div class="card text-center w-75 mb-3">
-
                     <div class="card-header">
                         <h3>Домашнее Задание № {{ homework.task.number }}</h3>
                         <p class="card-title text-secondary fst-italic ">Отправлено: {{ homework.created }}</p>
@@ -36,7 +34,7 @@
                     <div class="card-footer">
                         <button type="button" class="btn btn-success w-25 p-1">Проверено! ✅
                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{ homework.score }} из 10
+                            <b>{{ homework.score }}</b> / 10
                             <span class="visually-hidden">unread messages</span>
                           </span>
                         </button>
