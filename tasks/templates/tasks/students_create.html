@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание списка студентов!</title>
+</head>
+<body>
+{% if request.user.is_superuser %}
+    <form action="{% url 'students-create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">create</button>
+    </form>
+{% else %}
+    <h1>У вас нет прав суперпользователя, вы не админ!</h1>
+{% endif %}
+</body>
+</html>
