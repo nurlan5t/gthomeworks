@@ -24,7 +24,7 @@ class Student(User):
             super(Student, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} {self.band.group_number}'
+        return f'{self.get_full_name()} ({self.band})'
 
     class Meta:
         verbose_name = 'Student'

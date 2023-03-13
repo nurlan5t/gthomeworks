@@ -58,7 +58,7 @@ def create_students(request):
             with open(rf'C:\Users\User\PycharmProjects\gthomeworks\media\{str(file)}', encoding='UTF-8') as data:
                 students_names_list = data.readlines()
                 with open(
-                        rf'C:\Users\User\PycharmProjects\gthomeworks\media\{str(file)}', 'w',
+                        rf'C:\Users\User\PycharmProjects\gthomeworks\media\Accounts-{str(file)}', 'w',
                         encoding='UTF-8') as profile:
                     for name in students_names_list:
                         new_student = {
@@ -69,5 +69,5 @@ def create_students(request):
                         }
                         profile.write(f'{new_student}\n')
                         Student(**new_student).save()
-
+            return redirect(f'/admin/students/student')
     return render(request, 'tasks/students_create.html', {'form': form})

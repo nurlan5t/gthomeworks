@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from tasks.models import Task, Homework
+from tasks.models import Task
 from tasks.forms import CreateHomeworkForm
 from students.models import Student
 
@@ -14,8 +14,6 @@ class TasksListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """Return all active Tasks"""
-        if self.request.user.is_superuser:
-            return Homework.objects.all()
         current_student = Student.objects.get(id=self.request.user.pk)
         return Task.objects.filter(
             is_active=True,
