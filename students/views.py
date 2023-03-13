@@ -1,11 +1,14 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView
-from students.models import Student
-from students.forms import UpdateEmailForm
+from students.models import Student, Band
+from students.forms import UpdateEmailForm, CreateStudentsForm
 from tasks.models import Homework
+from django.core.files.storage import FileSystemStorage
+from django.utils.crypto import get_random_string
 
 
 class StudentHomeworksView(LoginRequiredMixin, ListView):
@@ -42,3 +45,29 @@ class StudentDetailView(LoginRequiredMixin, DetailView):
         else:
             student_form = UpdateEmailForm(instance=request.user)
         return render(request, self.template_name, {'student_form': student_form})
+
+
+@login_required
+def create_students(request):
+    form = CreateStudentsForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        file = request.FILES['file']
+        if form.is_valid():
+            fs = FileSystemStorage()
+            fs.save(file, file)
+            with open(rf'C:\Users\User\PycharmProjects\gthomeworks\media\{str(file)}', encoding='UTF-8') as data:
+                students_names_list = data.readlines()
+                with open(
+                        rf'C:\Users\User\PycharmProjects\gthomeworks\media\{str(file)}', 'w',
+                        encoding='UTF-8') as profile:
+                    for name in students_names_list:
+                        new_student = {
+                            'first_name': name.strip('\n'),
+                            'username': 'geek_' + str(Student.objects.count()+1),
+                            'password': get_random_string(10),
+                            'band': Band.objects.get(id=form.data.get('band'))
+                        }
+                        profile.write(f'{new_student}\n')
+                        Student(**new_student).save()
+
+    return render(request, 'tasks/students_create.html', {'form': form})

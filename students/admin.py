@@ -9,7 +9,7 @@ class BandAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('username', 'first_name', 'last_name', 'band_title', 'band_group_number')
+    list_display = ('username', 'first_name', 'band_title', 'band_group_number')
 
     @admin.display(ordering='band__group_number')
     def band_title(self, obj):

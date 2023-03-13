@@ -12,7 +12,7 @@ class Band(models.Model):
     month = models.PositiveSmallIntegerField(choices=MONTH_NUMBER_CHOICES, default=1)
 
     def __str__(self):
-        return f'{self.group_number} m{self.month}'
+        return f'{self.title} {self.group_number} m{self.month}'
 
 
 class Student(User):
