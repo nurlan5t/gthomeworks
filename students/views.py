@@ -69,5 +69,5 @@ def create_students(request):
                         }
                         profile.write(f'{new_student}\n')
                         Student(**new_student).save()
-            return redirect(f'/admin/students/student')
+            return redirect('/admin/students/student')
     return render(request, 'tasks/students_create.html', {'form': form})
