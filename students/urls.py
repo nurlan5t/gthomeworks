@@ -4,8 +4,8 @@ from students.views import LoginUser, StudentDetailView, StudentHomeworksView, c
 
 urlpatterns = [
     path('login/', LoginUser.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name="logout"),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('user/<int:pk>/', StudentDetailView.as_view(), name='student-detail'),
-    path('homeworks/', StudentHomeworksView.as_view(), name='student-homeworks'),
-    path('create_students/', create_students, name='students-create'),
+    path('my_homeworks/', StudentHomeworksView.as_view(), name='student-homeworks'),
+    path('admin/create_students/', create_students, name='students-create'),
 ]

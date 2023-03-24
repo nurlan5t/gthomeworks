@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="card-footer">
-                      <span class="badge text-bg-secondary w-25 p-2">Ожидает проверки...⌛</span>
+                      <span class="badge text-bg-secondary w-25 p-2">Ожидает проверки...</span>
                     </div>
 
                 {% else %}
@@ -32,12 +32,10 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="button" class="btn btn-success w-25 p-1">Проверено! ✅
-                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <b>{{ homework.score }}</b> / 10
-                            <span class="visually-hidden">unread messages</span>
-                          </span>
-                        </button>
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+                        <b>{{ homework.score }}</b> / 10
+                        </span>
+                        <span class="badge text-bg-success w-25 p-2">Проверено!</span>
                     </div>
 
                 {% endif %}

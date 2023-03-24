@@ -15,11 +15,17 @@
             {% if request.user.is_authenticated %}
                 <ul class="nav justify-content-end">
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'student-detail' user.pk %}"> {{ user.get_full_name }}</a>
+                    <a class="nav-link" href="{% url 'student-detail' user.pk %}">
+                        <button type="button" class="btn btn-dark text-primary-emphasis">{{ user.get_full_name }}</button>
+                    </a>
                   </li>
 
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'student-homeworks' %}"> My Homeworks {{ homeworks.user.count }} </a>
+                    <a class="nav-link" href="{% url 'student-homeworks' %}">
+                        <button type="button" class="btn btn-dark text-danger-emphasis">
+                            My Homeworks <span class="badge text-bg-secondary">{{ homeworks_count }}</span>
+                        </button>
+                    </a>
                   </li>
                 </ul>
                 <a class="login" href="{% url 'logout' %}">

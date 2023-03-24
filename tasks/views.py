@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from tasks.models import Task
+from tasks.models import Task, Homework
 from tasks.forms import CreateHomeworkForm
 from students.models import Student
 
@@ -19,6 +19,12 @@ class TasksListView(LoginRequiredMixin, ListView):
             is_active=True,
             bands=current_student.band).order_by('-deadline').exclude(homework__student=current_student)
 
+    def get_context_data(self, **kwargs):
+        current_student = Student.objects.get(id=self.request.user.pk)
+        context = super(TasksListView, self).get_context_data(**kwargs)
+        context['homeworks_count'] = Homework.objects.filter(student=current_student, is_checked=True).count()
+        return context
+
 
 class TaskDetailView(DetailView):
     model = Task
@@ -33,7 +39,7 @@ class TaskDetailView(DetailView):
                 new_hw.student = Student.objects.get(pk=request.user.pk)
                 new_hw.task = self.get_object()
                 new_hw.save()
-                return redirect(f'/')
+                return redirect('/my_homeworks')
         else:
             homework_form = CreateHomeworkForm(instance=request.user)
         return render(request, self.template_name, {'task': self.template_name, 'homework_form': homework_form})
