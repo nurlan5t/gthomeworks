@@ -44,11 +44,12 @@ class Homework(models.Model):
         if self.is_checked and self.student.email:
             send_mail(
                 subject=f'Домашнее Задание №{self.task.number}',
-                message=f'Оценка: {self.score} из 10',
+                message=f'Оценка: {self.score} из 10\n\n'
+                        f'подробнее: http://geeks.pythonanywhere.com/my_homeworks/',
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[f'{self.student.email}'],
             )
-
+            FileSystemStorage().delete(str(self.file))
         if self.created.__le__(self.task.deadline):
             self.is_deadline = True
         else:
