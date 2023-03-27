@@ -69,5 +69,6 @@ def create_students(request):
                         }
                         profile.write(f'{new_student}\n')
                         Student(**new_student).save()
+            fs.delete(str(file))
             return redirect('/admin/students/student')
     return render(request, 'tasks/students_create.html', {'form': form})
