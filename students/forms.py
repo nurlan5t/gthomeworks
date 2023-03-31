@@ -16,10 +16,10 @@ class CreateStudentsForm(forms.Form):
     file = forms.FileField(
         validators=[
             FileExtensionValidator(['txt']),
-            RegexValidator(
-                regex=r'([a-zA-Z_.-]+)_([1-9]+)-([1-9]+)',
-                message='Название файла должно быть строго по шаблону, например: Python_29-1',
-                code='invalid_filename'
-            )
+            # RegexValidator(
+            #     regex=r'([a-zA-Z_.-]+)_([1-9]+)-([1-9]+)',
+            #     message='Название файла должно быть строго по шаблону, например: Python_29-1',
+            #     code='invalid_filename'
+            # )
         ]
     )

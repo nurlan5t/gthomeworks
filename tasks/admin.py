@@ -13,7 +13,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(Homework)
 class HomeworkAdmin(admin.ModelAdmin):
-    list_display = ('task_number', 'student_fullname', 'created', 'group_number', 'is_deadline', 'is_checked')
+    list_display = ('task_number', 'student_fullname', 'created', 'group_number', 'is_deadline', 'is_checked', 'score')
     list_filter = ('is_deadline', 'is_checked', 'student__first_name', 'student__band')
 
     @admin.display()
