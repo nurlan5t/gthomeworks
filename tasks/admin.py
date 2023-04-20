@@ -14,7 +14,7 @@ class TaskAdmin(admin.ModelAdmin):
 @admin.register(Homework)
 class HomeworkAdmin(admin.ModelAdmin):
     list_display = ('task_number', 'student_fullname', 'created', 'group_number', 'is_deadline', 'is_checked', 'score')
-    list_filter = ('is_deadline', 'is_checked', 'student__first_name', 'student__band')
+    list_filter = ('task', 'is_deadline', 'is_checked', 'student__band', 'student__first_name')
 
     @admin.display()
     def task_number(self, obj):

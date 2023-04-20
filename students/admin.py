@@ -10,7 +10,7 @@ class BandAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('username', 'first_name', 'band_title', 'band_group_number', 'stand_up_count')
+    list_display = ('username', 'first_name', 'email', 'band_title', 'band_group_number', 'stand_up_count')
     list_filter = ('band',)
 
     @admin.display(ordering='band__group_number')
