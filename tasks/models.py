@@ -23,6 +23,9 @@ class Task(models.Model):
     def __str__(self):
         return str(self.number)
 
+    class Meta:
+        verbose_name = 'Домашнее задание'
+        verbose_name_plural = 'Домашние задания'
 
 class Homework(models.Model):
     # student's input data
@@ -59,6 +62,10 @@ class Homework(models.Model):
         else:
             self.is_deadline = False
         super(Homework, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Домашняя работа'
+        verbose_name_plural = 'Домашние работы'
 
 
 @receiver(post_delete, sender=Homework)

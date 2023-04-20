@@ -14,6 +14,10 @@ class Band(models.Model):
     def __str__(self):
         return f'{self.title} {self.group_number} m{self.month}'
 
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы студентов'
+
 
 class Student(User):
     band = models.ForeignKey(Band, on_delete=models.CASCADE)
@@ -27,4 +31,5 @@ class Student(User):
         return f'{self.get_full_name()} ({self.band})'
 
     class Meta:
-        verbose_name = 'Student'
+        verbose_name = 'Студент'
+        verbose_name_plural = 'Студенты'
