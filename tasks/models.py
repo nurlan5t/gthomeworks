@@ -2,6 +2,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.utils.timezone import localtime
 from ckeditor.fields import RichTextField
 from students.models import Student, Band
@@ -56,3 +58,12 @@ class Homework(models.Model):
         else:
             self.is_deadline = False
         super(Homework, self).save(*args, **kwargs)
+
+
+@receiver(post_delete, sender=Homework)
+def post_save_image(sender, instance, *args, **kwargs):
+    """ Clean Old HW file """
+    try:
+        instance.file.delete(save=False)
+    except:
+        pass
