@@ -27,6 +27,7 @@ class Task(models.Model):
         verbose_name = 'Домашнее задание'
         verbose_name_plural = 'Домашние задания'
 
+
 class Homework(models.Model):
     # student's input data
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
@@ -48,7 +49,6 @@ class Homework(models.Model):
 
     def save(self, *args, **kwargs):
         if self.is_checked:
-            FileSystemStorage().delete(str(self.file))
             if self.student.email:
                 send_mail(
                     subject=f'Домашнее Задание №{self.task.number}',
@@ -57,10 +57,12 @@ class Homework(models.Model):
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[f'{self.student.email}'],
                 )
+            if self.file:
+                FileSystemStorage().delete(str(self.file))
+
         if self.created.__le__(self.task.deadline):
             self.is_deadline = True
-        else:
-            self.is_deadline = False
+
         super(Homework, self).save(*args, **kwargs)
 
     class Meta:
