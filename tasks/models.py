@@ -23,6 +23,10 @@ class Task(models.Model):
     def __str__(self):
         return str(self.number)
 
+    class Meta:
+        verbose_name = 'Домашнее задание'
+        verbose_name_plural = 'Домашние задания'
+
 
 class Homework(models.Model):
     # student's input data
@@ -45,20 +49,25 @@ class Homework(models.Model):
 
     def save(self, *args, **kwargs):
         if self.is_checked:
-            FileSystemStorage().delete(str(self.file))
             if self.student.email:
                 send_mail(
                     subject=f'Домашнее Задание №{self.task.number}',
                     message=f'Оценка: {self.score} из 10\n\n'
-                            f'подробнее: http://127.0.0.1:8000/my_homeworks/',
+                            f'подробнее: https://geeks.pythonanywhere.com/my_homeworks/',
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[f'{self.student.email}'],
                 )
+            if self.file:
+                FileSystemStorage().delete(str(self.file))
+
         if self.created.__le__(self.task.deadline):
             self.is_deadline = True
-        else:
-            self.is_deadline = False
+
         super(Homework, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Домашняя работа'
+        verbose_name_plural = 'Домашние работы'
 
 
 @receiver(post_delete, sender=Homework)
