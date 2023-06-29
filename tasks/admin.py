@@ -5,6 +5,7 @@ from tasks.models import Task, Homework
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('number', 'deadline', 'is_active', 'for_bands')
+    list_filter = ('bands',)
 
     @admin.display()
     def for_bands(self, obj):
