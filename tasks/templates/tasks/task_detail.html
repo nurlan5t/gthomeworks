@@ -19,12 +19,12 @@
     <div class="form-group d-flex justify-content-center">
         <form class="row g-3 needs-validation w-50" enctype="multipart/form-data" method="post">
             <br>
-            <div class="alert alert-info" role="alert">
-                <p class="text-center display-6"><strong>Отправьте <i>файл</i> или <i>ссылку</i> на Git репозиторий!</strong></p>
-            </div>
+{#            <div class="alert alert-info" role="alert">#}
+{#                <p class="text-center display-6"><strong>Отправьте <i>файл</i> или <i>ссылку</i> на Git репозиторий!</strong></p>#}
+{#            </div>#}
             {% csrf_token %}
             <h5>{{ homework_form.as_p }}</h5>
-            <button type="submit" class="btn btn-success w-100">Отправить</button>
+            <button type="submit" class="btn btn-lg btn-success w-100">Отправить</button>
         </form>
     </div>
 

@@ -63,7 +63,7 @@ def create_students(request):
                     for name in students_names_list:
                         new_student = {
                             'first_name': name.strip('\n'),
-                            'username': 'geek_' + str(Student.objects.count()+1),
+                            'username': f'geek_{int(tuple(Student.objects.all())[-1].username[5:]) + 1}',
                             'password': get_random_string(10),
                             'band': Band.objects.get(id=form.data.get('band'))
                         }
