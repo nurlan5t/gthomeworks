@@ -48,6 +48,7 @@ class Homework(models.Model):
     is_checked = models.BooleanField(default=False, blank=True)
 
     def save(self, *args, **kwargs):
+        # self.file.name = f'{self.student.get_full_name()}_{self.student.band.group_number}_HW{self.task.number}.py'
         if self.is_checked:
             if self.student.email:
                 send_mail(

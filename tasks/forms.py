@@ -5,7 +5,7 @@ from tasks.models import Homework
 
 class CreateHomeworkForm(forms.ModelForm):
     file = forms.FileField(
-        required=False,
+        required=True,
         validators=[
             FileExtensionValidator(['py']),
             # RegexValidator(
@@ -17,7 +17,7 @@ class CreateHomeworkForm(forms.ModelForm):
         widget=forms.FileInput(attrs={'class': 'form-control'}),
         # help_text='Название файла должно быть строго по шаблону, например: Azamat_30-1_hw1
     )
-    link_to_git = forms.URLField(required=False, widget=forms.URLInput(attrs={'class': 'form-control'}))
+    # link_to_git = forms.URLField(required=False, widget=forms.URLInput(attrs={'class': 'form-control'}))
     stand_up = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 8}),
         min_length=120,
@@ -30,4 +30,5 @@ class CreateHomeworkForm(forms.ModelForm):
 
     class Meta:
         model = Homework
-        fields = ('file', 'link_to_git', 'stand_up')
+        fields = ('file', 'stand_up')
+        # fields = ('file', 'link_to_git', 'stand_up')
